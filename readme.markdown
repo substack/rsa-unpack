@@ -2,6 +2,8 @@
 
 unpack rsa fields from PEM strings
 
+[![build status](https://secure.travis-ci.org/substack/rsa-unpack.png)](http://travis-ci.org/substack/rsa-unpack)
+
 # example
 
 ```
