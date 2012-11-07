@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 var fs = require('fs');
-var path = require('path');
 var argv = require('optimist').argv;
 var unpack = require('../');
 
@@ -14,7 +13,7 @@ if (argv.h || argv.help) {
     ;
 }
 
-var file = process.argv[2] || '-';
+var file = argv._[0] || '-';
 if (file === '-' && format === 'json') {
     var data = '';
     process.stdin.on('data', function (buf) { data += buf });
@@ -36,7 +35,7 @@ else if (file === '-') {
     process.stdin.resume();
 }
 else if (/\.json$/.test(file) || format === 'json') {
-    var keys = require(path.resolve(process.argv[2]));
+    var keys = JSON.parse(fs.readFileSync(file, 'utf8'));
     console.log(JSON.stringify({
         private : encode(unpack(keys.private)),
         public : encode(unpack(keys.public))
