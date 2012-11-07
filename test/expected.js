@@ -12,10 +12,15 @@ var keys = [
 var unpack = require('../');
 
 test('output matches openssl rsa -text', function (t) {
-    t.plan(3);
+    t.plan(12);
     
     keys.forEach(function (key, ix) {
-        t.same(unbuffer(unpack(key.private)), expected[ix]);
+        var priv = unpack(key.private);
+        var pub = unpack(key.public);
+        t.same(unbuffer(priv), expected[ix]);
+        t.same(pub.modulus, priv.modulus);
+        t.same(pub.bits, priv.bits);
+        t.same(pub.publicExponent, priv.publicExponent);
     });
     t.end();
 });
