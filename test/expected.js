@@ -11,6 +11,7 @@ var unpack = require('../');
 
 test('output matches openssl rsa -text', function (t) {
     t.same(unbuffer(unpack(keys[0].private)), expected[0]);
+    t.same(unbuffer(unpack(keys[1].private)), expected[1]);
     t.end();
 });
 
