@@ -2,61 +2,36 @@ module.exports = function (pem) {
     var buf = Buffer(pem.split('\n').slice(1,-2).join(''), 'base64');
     var field = {};
     var size = {};
-    var offset;
+    var offset = 7;
     
-    size.modulus = buf.readUInt8(8);
-    offset = 9;
-    field.modulus = buf.slice(offset, offset + size.modulus);
-    offset += size.modulus;
+    function read () {
+        var s = buf.readUInt8(offset + 1);
+        
+        if (s & 0x80) {
+            offset ++;
+            s = buf.readUInt8(offset);
+        }
+        
+        offset += 2;
+        
+        var b = buf.slice(offset, offset + s);
+        offset += s;
+        return b;
+    }
     
-    field.bits = (size.modulus - 1) * 8 + Math.ceil(
+    field.modulus = read();
+    
+    field.bits = (field.modulus.length - 1) * 8 + Math.ceil(
         Math.log(field.modulus[0]) / Math.log(2)
     );
     
-    size.publicExponent = buf.readUInt8(offset + 1);
-    offset += 2;
-    
-    field.publicExponent = parseInt(
-        buf.slice(offset, offset + size.publicExponent).toString('hex'),
-        16
-    );
-    offset += size.publicExponent;
-    
-    size.privateExponent = buf.readUInt8(offset + 1);
-    offset += 2;
-    
-    field.privateExponent = buf.slice(offset, offset + size.privateExponent);
-    offset += size.privateExponent;
-    
-    size.prime1 = buf.readUInt8(offset + 1);
-    offset += 2;
-    
-    field.prime1 = buf.slice(offset, offset + size.prime1);
-    offset += size.prime1;
-    
-    size.prime2 = buf.readUInt8(offset + 1);
-    offset += 2;
-    
-    field.prime2 = buf.slice(offset, offset + size.prime2);
-    offset += size.prime2;
-    
-    size.exponent1 = buf.readUInt8(offset + 1);
-    offset += 2;
-    
-    field.exponent1 = buf.slice(offset, offset + size.exponent1);
-    offset += size.exponent1;
-    
-    size.exponent2 = buf.readUInt8(offset + 1);
-    offset += 2;
-    
-    field.exponent2 = buf.slice(offset, offset + size.exponent2);
-    offset += size.exponent2;
-    
-    size.coefficient = buf.readUInt8(offset + 1);
-    offset += 2;
-    
-    field.coefficient = buf.slice(offset, offset + size.coefficient);
-    offset += size.coefficient;
+    field.publicExponent = parseInt(read().toString('hex'), 16);
+    field.privateExponent = read();
+    field.prime1 = read();
+    field.prime2 = read();
+    field.exponent1 = read();
+    field.exponent2 = read();
+    field.coefficient = read();
     
     return field;
 };
