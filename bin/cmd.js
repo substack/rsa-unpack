@@ -8,6 +8,12 @@ var unpack = require('../');
 var format = argv.format || 'pem';
 var encoding = argv.e || argv.encoding || 'hex';
 
+if (argv.h || argv.help) {
+    return fs.createReadStream(__dirname + '/usage.txt')
+        .pipe(process.stdout)
+    ;
+}
+
 var file = process.argv[2] || '-';
 if (file === '-' && format === 'json') {
     var data = '';

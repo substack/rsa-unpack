@@ -47,6 +47,19 @@ The key can be a public or private key.
 
 If the key is invalid, returns undefined.
 
+# command-line usage
+
+```
+usage: rsa-unpack {FILE|-} OPTIONS
+
+OPTIONS:
+
+  --format        format to expect FILE to be in.
+                  default: pem or json if FILE ends in .json
+
+  --encoding, -e  encoding to use. default: hex
+```
+
 # install
 
 With [npm](https://npmjs.org) do:
