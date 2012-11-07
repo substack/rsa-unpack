@@ -3,16 +3,18 @@ var expected = [
     require('./data/expected0.json'),
     require('./data/expected1.json'),
     require('./data/expected2.json'),
+    require('./data/expected3.json'),
 ];
 var keys = [
     require('./data/keys0.json'),
     require('./data/keys1.json'),
     require('./data/keys2.json'),
+    require('./data/keys3.json'),
 ];
 var unpack = require('../');
 
 test('output matches openssl rsa -text', function (t) {
-    t.plan(12);
+    t.plan(keys.length * 4);
     
     keys.forEach(function (key, ix) {
         var priv = unpack(key.private);

@@ -2,11 +2,11 @@
 
 # npm install -g rsa-json first
 
-rsa-json > keys$1.json
+rsa-json --bits=$1 > keys$2.json
 
 openssl rsa \
-    -in <(node -e "console.log(require('./keys$1.json').private)") \
+    -in <(node -e "console.log(require('./keys$2.json').private)") \
     -noout -text \
-    > keys$1.txt
+    > keys$2.txt
 
-node parse.js keys$1.txt > expected$1.json
+node parse.js keys$2.txt > expected$2.json
