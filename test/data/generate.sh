@@ -9,4 +9,4 @@ openssl rsa \
     -noout -text \
     > keys$1.txt
 
-node parse.js > expected$1.json
+node parse.js keys$1.txt > expected$1.json
