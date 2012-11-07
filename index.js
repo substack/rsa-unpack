@@ -1,10 +1,14 @@
 module.exports = function (pem) {
     var buf = Buffer(pem.split('\n').slice(1,-2).join(''), 'base64');
-    var fields = {};
+    var field = {};
+    var size = {};
     
-    var size = buf.readUInt8(8);
-    fields.size = size;
-    fields.modulus = buf.slice(9, size + 9);
+    size.modulus = buf.readUInt8(8);
+    field.modulus = buf.slice(9, size.modulus + 9);
     
-    return fields;
+    field.bits = (size.modulus - 1) * 8 + Math.ceil(
+        Math.log(field.modulus[0]) / Math.log(2)
+    );
+    
+    return field;
 };
