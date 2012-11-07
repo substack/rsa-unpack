@@ -31,3 +31,28 @@ $ node example/unpack.js
   exponent2: <Buffer 00 f3 5c 5a 33 b5 08 c9 3b af 71 c1 16 01 0b 98 6b df 22 9d 00 dc 68 37 69 91 c1 38 57 81 85 68 11 71 81 cd 9a 30 55 27 8d 8f ee 8c b6 6f 91 16 31 57 e7 ...>,
   coefficient: <Buffer 0f a9 06 b8 51 44 98 84 9e d7 92 5f 0d 24 0a f0 3f e1 bb 86 52 93 e5 b4 53 c9 6c 0a da ef 70 1b 83 99 a4 9a 15 e8 cb 43 5b f7 14 9b d5 a0 8c 0d 47 c0 af ...> }
 ```
+
+# methods
+
+``` js
+var unpack = require('rsa-unpack')
+```
+
+## unpack(pemKeyString)
+
+Unpack the PEM-formatted string `pemKeyString` into the RSA field values.
+Currently only private keys are supported.
+
+If the key is invalid, returns undefined.
+
+# install
+
+With [npm](https://npmjs.org) do:
+
+```
+npm install rsa-unpack
+```
+
+# license
+
+MIT

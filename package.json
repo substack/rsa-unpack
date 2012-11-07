@@ -1,0 +1,37 @@
+{
+    "name" : "rsa-unpack",
+    "version" : "0.0.0",
+    "description" : "unpack rsa fields from PEM strings",
+    "main" : "index.js",
+    "bin" : {},
+    "directories" : {
+        "example" : "example",
+        "test" : "test"
+    },
+    "dependencies" : {},
+    "devDependencies" : {
+        "tap" : "~0.3.0"
+    },
+    "scripts" : {
+        "test" : "tap test/*.js"
+    },
+    "repository" : {
+        "type" : "git",
+        "url" : "git://github.com/substack/rsa-unpack.git"
+    },
+    "homepage" : "https://github.com/substack/rsa-unpack",
+    "keywords" : [
+        "crypto",
+        "rsa",
+        "pem",
+        "keypair",
+        "public",
+        "private"
+    ],
+    "author" : {
+        "name" : "James Halliday",
+        "email" : "mail@substack.net",
+        "url" : "http://substack.net"
+    },
+    "license" : "MIT"
+}
