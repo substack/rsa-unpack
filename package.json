@@ -10,6 +10,9 @@
         "example" : "example",
         "test" : "test"
     },
+    "dependencies" : {
+        "optimist" : "~0.3.5"
+    },
     "devDependencies" : {
         "tap" : "~0.3.0"
     },
