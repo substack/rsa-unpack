@@ -20,6 +20,13 @@ module.exports = function (pem) {
         buf.slice(offset, offset + size.publicExponent).toString('hex'),
         16
     );
+    offset += size.publicExponent;
+    
+    size.privateExponent = buf.readUInt8(offset + 1);
+    offset += 2;
+    
+    field.privateExponent = buf.slice(offset, offset + size.privateExponent);
+//console.dir(buf.slice(offset).toString('hex'));
     
     return field;
 };
