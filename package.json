@@ -3,12 +3,10 @@
     "version" : "0.0.0",
     "description" : "unpack rsa fields from PEM strings",
     "main" : "index.js",
-    "bin" : {},
     "directories" : {
         "example" : "example",
         "test" : "test"
     },
-    "dependencies" : {},
     "devDependencies" : {
         "tap" : "~0.3.0"
     },
