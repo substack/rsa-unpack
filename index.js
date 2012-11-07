@@ -1,4 +1,12 @@
 module.exports = function (pem) {
+    if (typeof pem !== 'string') pem = String(pem);
+    if (!/^-----BEGIN RSA PRIVATE KEY-----/.test(pem)) {
+        return undefined;
+    }
+    if (!/\n-----END RSA PRIVATE KEY-----\s*$/.test(pem)) {
+        return undefined;
+    }
+    
     var buf = Buffer(pem.split('\n').slice(1,-2).join(''), 'base64');
     var field = {};
     var size = {};

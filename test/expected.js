@@ -15,6 +15,11 @@ test('output matches openssl rsa -text', function (t) {
     t.end();
 });
 
+test('invalid pem data returns undefined', function (t) {
+    t.equal(unpack('blah'), undefined);
+    t.end();
+});
+
 function unbuffer (c) {
     return Object.keys(c).reduce(function (acc, key) {
         if (Buffer.isBuffer(c[key])) {
