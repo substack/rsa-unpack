@@ -26,7 +26,37 @@ module.exports = function (pem) {
     offset += 2;
     
     field.privateExponent = buf.slice(offset, offset + size.privateExponent);
-//console.dir(buf.slice(offset).toString('hex'));
+    offset += size.privateExponent;
+    
+    size.prime1 = buf.readUInt8(offset + 1);
+    offset += 2;
+    
+    field.prime1 = buf.slice(offset, offset + size.prime1);
+    offset += size.prime1;
+    
+    size.prime2 = buf.readUInt8(offset + 1);
+    offset += 2;
+    
+    field.prime2 = buf.slice(offset, offset + size.prime2);
+    offset += size.prime2;
+    
+    size.exponent1 = buf.readUInt8(offset + 1);
+    offset += 2;
+    
+    field.exponent1 = buf.slice(offset, offset + size.exponent1);
+    offset += size.exponent1;
+    
+    size.exponent2 = buf.readUInt8(offset + 1);
+    offset += 2;
+    
+    field.exponent2 = buf.slice(offset, offset + size.exponent2);
+    offset += size.exponent2;
+    
+    size.coefficient = buf.readUInt8(offset + 1);
+    offset += 2;
+    
+    field.coefficient = buf.slice(offset, offset + size.coefficient);
+    offset += size.coefficient;
     
     return field;
 };
