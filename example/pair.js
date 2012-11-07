@@ -1,5 +1,6 @@
 var fs = require('fs');
-var keys = require('./keys.json');
+var path = require('path');
+var keys = require(path.resolve(process.argv[2]));
 
 var unpack = require('../');
 console.dir({

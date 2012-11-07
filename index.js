@@ -20,8 +20,11 @@ module.exports = function (pem) {
         var s = buf.readUInt8(offset + 1);
         
         if (s & 0x80) {
-            offset ++;
-            s = buf.readUInt8(offset + 1);
+            var n = s - 0x80;
+            s = buf[[
+                'readUInt8', 'readUInt16BE'
+            ][n - 1]](offset + 2);
+            offset += n;
         }
         
         offset += 2;
