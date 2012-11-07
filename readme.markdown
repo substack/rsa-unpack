@@ -43,7 +43,7 @@ var unpack = require('rsa-unpack')
 ## unpack(pemKeyString)
 
 Unpack the PEM-formatted string `pemKeyString` into the RSA field values.
-Currently only private keys are supported.
+The key can be a public or private key.
 
 If the key is invalid, returns undefined.
 
