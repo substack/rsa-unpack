@@ -13,7 +13,7 @@ var fields = rows.reduce(function (acc, row) {
     
     if (/^\n/.test(s)) {
         // multi-line
-        acc[key] = Buffer(s.replace(/[\s:]+/g, ''), 'hex');
+        acc[key] = Buffer(s.replace(/[\s:]+/g, ''), 'hex').toString('base64');
         return acc;
     }
     
@@ -30,4 +30,4 @@ var fields = rows.reduce(function (acc, row) {
     return acc;
 }, {});
 
-console.dir(fields);
+console.log(JSON.stringify(fields));
