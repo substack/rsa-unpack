@@ -30,7 +30,7 @@ module.exports = function (pem) {
     field.modulus = read();
     
     field.bits = (field.modulus.length - 1) * 8 + Math.ceil(
-        Math.log(field.modulus[0]) / Math.log(2)
+        Math.log(field.modulus[0] + 1) / Math.log(2)
     );
     
     field.publicExponent = parseInt(read().toString('hex'), 16);
