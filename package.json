@@ -1,8 +1,11 @@
 {
     "name" : "rsa-unpack",
-    "version" : "0.0.4",
+    "version" : "0.0.5",
     "description" : "unpack rsa fields from PEM strings",
     "main" : "index.js",
+    "bin" : {
+        "rsa-unpack" : "bin/cmd.js"
+    },
     "directories" : {
         "example" : "example",
         "test" : "test"
