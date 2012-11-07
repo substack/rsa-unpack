@@ -1,6 +1,6 @@
 var test = require('tap').test;
-var expected = require('./data/expected.json');
-var keys = require('./data/keys.json');
+var expected = require('./data/expected0.json');
+var keys = require('./data/keys0.json');
 var unpack = require('../');
 
 test('output matches openssl rsa -text', function (t) {
