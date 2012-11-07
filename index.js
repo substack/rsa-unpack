@@ -9,7 +9,7 @@ module.exports = function (pem) {
         
         if (s & 0x80) {
             offset ++;
-            s = buf.readUInt8(offset);
+            s = buf.readUInt8(offset + 1);
         }
         
         offset += 2;
