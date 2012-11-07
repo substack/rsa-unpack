@@ -1,16 +1,20 @@
 module.exports = function (pem) {
     if (typeof pem !== 'string') pem = String(pem);
-    if (!/^-----BEGIN RSA PRIVATE KEY-----/.test(pem)) {
-        return undefined;
-    }
-    if (!/\n-----END RSA PRIVATE KEY-----\s*$/.test(pem)) {
+    var m = /^-----BEGIN RSA (PRIVATE|PUBLIC) KEY-----/.exec(pem);
+    if (!m) return undefined;
+    var type = m[1].toLowerCase();
+    
+    if (pem.split('\n').slice(-2)[0] !== '-----END RSA ' + m[1] + ' KEY-----') {
         return undefined;
     }
     
     var buf = Buffer(pem.split('\n').slice(1,-2).join(''), 'base64');
     var field = {};
     var size = {};
-    var offset = 7;
+    var offset = {
+        private : 7,
+        public : 3,
+    }[type];
     
     function read () {
         var s = buf.readUInt8(offset + 1);
@@ -32,14 +36,16 @@ module.exports = function (pem) {
     field.bits = (field.modulus.length - 1) * 8 + Math.ceil(
         Math.log(field.modulus[0] + 1) / Math.log(2)
     );
-    
     field.publicExponent = parseInt(read().toString('hex'), 16);
-    field.privateExponent = read();
-    field.prime1 = read();
-    field.prime2 = read();
-    field.exponent1 = read();
-    field.exponent2 = read();
-    field.coefficient = read();
+    
+    if (type === 'private') {
+        field.privateExponent = read();
+        field.prime1 = read();
+        field.prime2 = read();
+        field.exponent1 = read();
+        field.exponent2 = read();
+        field.coefficient = read();
+    }
     
     return field;
 };
