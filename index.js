@@ -12,8 +12,8 @@ module.exports = function (pem) {
     var field = {};
     var size = {};
     var offset = {
-        private : buf[1] - 0x80 + 5,
-        public : buf[1] - 0x80 + 2,
+        private : buf[1] & 0x80 ? buf[1] - 0x80 + 5 : 7,
+        public : buf[1] & 0x80 ? buf[1] - 0x80 + 2 : 2,
     }[type];
     
     function read () {
