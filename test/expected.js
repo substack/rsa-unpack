@@ -1,4 +1,5 @@
-var test = require('tap').test;
+var binary = require('bops');
+var test = require('tape');
 var expected = [
     require('./data/expected0.json'),
     require('./data/expected1.json'),
@@ -20,7 +21,7 @@ test('output matches openssl rsa -text', function (t) {
         var priv = unpack(key.private);
         var pub = unpack(key.public);
         t.same(unbuffer(priv), expected[ix]);
-        t.same(pub.modulus, priv.modulus);
+        t.same(binary.to(pub.modulus, 'base64'), binary.to(priv.modulus, 'base64'));
         t.same(pub.bits, priv.bits);
         t.same(pub.publicExponent, priv.publicExponent);
     });
@@ -34,8 +35,8 @@ test('invalid pem data returns undefined', function (t) {
 
 function unbuffer (c) {
     return Object.keys(c).reduce(function (acc, key) {
-        if (Buffer.isBuffer(c[key])) {
-            acc[key] = c[key].toString('base64');
+        if (binary.is(c[key])) {
+            acc[key] = binary.to(c[key], 'base64');
         }
         else acc[key] = c[key];
         return acc;
