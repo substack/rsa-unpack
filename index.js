@@ -1,3 +1,5 @@
+var binary = require('bops');
+
 module.exports = function (pem) {
     if (typeof pem !== 'string') pem = String(pem);
     var m = /^-----BEGIN RSA (PRIVATE|PUBLIC) KEY-----/.exec(pem);
@@ -8,28 +10,29 @@ module.exports = function (pem) {
         return undefined;
     }
     
-    var buf = Buffer(pem.split('\n').slice(1,-2).join(''), 'base64');
+    var buf = binary.from(pem.split('\n').slice(1,-2).join(''), 'base64');
     var field = {};
     var size = {};
+    var snd = binary.readUInt8(buf, 1);
     var offset = {
-        private : buf[1] & 0x80 ? buf[1] - 0x80 + 5 : 7,
-        public : buf[1] & 0x80 ? buf[1] - 0x80 + 2 : 2,
+        private : snd & 0x80 ? snd - 0x80 + 5 : 7,
+        public : snd & 0x80 ? snd - 0x80 + 2 : 2,
     }[type];
     
     function read () {
-        var s = buf.readUInt8(offset + 1);
+        var s = binary.readUInt8(buf, offset + 1);
         
         if (s & 0x80) {
             var n = s - 0x80;
-            s = buf[[
+            s = binary[[
                 'readUInt8', 'readUInt16BE'
-            ][n - 1]](offset + 2);
+            ][n - 1]](buf, offset + 2);
             offset += n;
         }
         
         offset += 2;
         
-        var b = buf.slice(offset, offset + s);
+        var b = binary.subarray(buf, offset, offset + s);
         offset += s;
         return b;
     }
@@ -37,9 +40,9 @@ module.exports = function (pem) {
     field.modulus = read();
     
     field.bits = (field.modulus.length - 1) * 8 + Math.ceil(
-        Math.log(field.modulus[0] + 1) / Math.log(2)
+        Math.log(binary.readUInt8(field.modulus, 0) + 1) / Math.log(2)
     );
-    field.publicExponent = parseInt(read().toString('hex'), 16);
+    field.publicExponent = parseInt(binary.to(read(), 'hex'), 16);
     
     if (type === 'private') {
         field.privateExponent = read();

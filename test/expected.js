@@ -1,3 +1,4 @@
+var binary = require('bops');
 var test = require('tap').test;
 var expected = [
     require('./data/expected0.json'),
@@ -34,8 +35,8 @@ test('invalid pem data returns undefined', function (t) {
 
 function unbuffer (c) {
     return Object.keys(c).reduce(function (acc, key) {
-        if (Buffer.isBuffer(c[key])) {
-            acc[key] = c[key].toString('base64');
+        if (binary.is(c[key])) {
+            acc[key] = binary.to(c[key], 'base64');
         }
         else acc[key] = c[key];
         return acc;
