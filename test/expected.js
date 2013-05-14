@@ -1,5 +1,5 @@
 var binary = require('bops');
-var test = require('tap').test;
+var test = require('tape');
 var expected = [
     require('./data/expected0.json'),
     require('./data/expected1.json'),
@@ -21,7 +21,7 @@ test('output matches openssl rsa -text', function (t) {
         var priv = unpack(key.private);
         var pub = unpack(key.public);
         t.same(unbuffer(priv), expected[ix]);
-        t.same(pub.modulus, priv.modulus);
+        t.same(binary.to(pub.modulus, 'base64'), binary.to(priv.modulus, 'base64'));
         t.same(pub.bits, priv.bits);
         t.same(pub.publicExponent, priv.publicExponent);
     });
