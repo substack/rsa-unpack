@@ -4,9 +4,8 @@ module.exports = function (pem) {
     if (!m) return undefined;
     var type = m[1].toLowerCase();
     
-    if (pem.split('\n').slice(-2)[0] !== '-----END RSA ' + m[1] + ' KEY-----') {
-        return undefined;
-    }
+    m = new RegExp("-----END RSA " + m[1] + " KEY-----\\n?$", 'g').exec(pem);
+    if (!m) return undefined;
     
     var buf = Buffer(pem.split('\n').slice(1,-2).join(''), 'base64');
     var field = {};
