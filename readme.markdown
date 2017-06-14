@@ -47,6 +47,12 @@ The key can be a public or private key.
 
 If the key is invalid, returns undefined.
 
+### input format
+
+The input key is expected to start with a line declaring whether the key is a public or private RSA key. This should look like either `-----BEGIN RSA PRIVATE KEY-----` (or `-----BEGIN RSA PUBLIC KEY-----`). After that first line should follow one or multiple lines with the key material encoded in Base64. The last line must correspond to the first line and indicate the end of the key: `-----END RSA PRIVATE KEY-----` (or `-----END RSA PUBLIC KEY-----`). Note that after the last line a trailing newline must follow.
+
+The OpenSSL project sometimes calls this the "traditional" or "SSLeay" format (refer to the [manual of `openssl pkcs8`](https://wiki.openssl.org/index.php/Manual:Pkcs8(1)#COMMAND_OPTIONS).
+
 # command-line usage
 
 ```
